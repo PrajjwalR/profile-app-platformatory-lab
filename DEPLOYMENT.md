@@ -29,7 +29,7 @@ In your `profile-app/src/App.jsx`, make sure you're using environment variables:
 
 ```jsx
 // Replace hardcoded localhost URLs with:
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
+const API_URL = process.env.REACT_APP_API_URLS || "http://localhost:4000";
 
 // Use API_URL in your fetch calls:
 fetch(`${API_URL}/profile/${encodeURIComponent(user.sub)}`);
