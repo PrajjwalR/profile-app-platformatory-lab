@@ -9,7 +9,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://profile-app-platformatory-lab.vercel.app/", // your deployed frontend URL
+      "https://profile-app-platformatory-lab.vercel.app", // Deployed frontend URL
       "http://localhost:5173", // for local development
     ],
     credentials: true,
