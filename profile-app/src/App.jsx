@@ -13,6 +13,9 @@ function App() {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } =
     useAuth0();
 
+  // API URL from environment variables
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
+
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -26,7 +29,7 @@ function App() {
   useEffect(() => {
     if (isAuthenticated && user) {
       setLoadingProfile(true);
-      fetch(`http://localhost:4000/profile/${encodeURIComponent(user.sub)}`)
+      fetch(`${API_URL}/profile/${encodeURIComponent(user.sub)}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -42,7 +45,7 @@ function App() {
         })
         .catch(() => setLoadingProfile(false));
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, API_URL]);
 
   // Handle form changes
   const handleChange = (e) => {
@@ -52,7 +55,7 @@ function App() {
   // Saves profile to backend
   const handleSave = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:4000/profile/${encodeURIComponent(user.sub)}`, {
+    fetch(`${API_URL}/profile/${encodeURIComponent(user.sub)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(profile),
