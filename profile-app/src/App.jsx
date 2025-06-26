@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   TextField,
@@ -13,7 +13,6 @@ function App() {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } =
     useAuth0();
 
-  // Profile state
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -21,19 +20,51 @@ function App() {
     city: "",
     pincode: "",
   });
+  const [loadingProfile, setLoadingProfile] = useState(false);
+
+  // Fetches profile from backend
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setLoadingProfile(true);
+      fetch(`http://localhost:4000/profile/${encodeURIComponent(user.sub)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            setProfile({
+              firstName: data.firstName || "",
+              lastName: data.lastName || "",
+              phone: data.phone || "",
+              city: data.city || "",
+              pincode: data.pincode || "",
+            });
+          }
+          setLoadingProfile(false);
+        })
+        .catch(() => setLoadingProfile(false));
+    }
+  }, [isAuthenticated, user]);
 
   // Handle form changes
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
+  // Saves profile to backend
   const handleSave = (e) => {
     e.preventDefault();
-    alert("Profile saved!");
-    console.log(profile);
+    fetch(`http://localhost:4000/profile/${encodeURIComponent(user.sub)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(profile),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        alert("Profile saved!");
+      })
+      .catch(() => alert("Error saving profile!"));
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || loadingProfile) return <div>Loading...</div>;
 
   if (!isAuthenticated) {
     return (

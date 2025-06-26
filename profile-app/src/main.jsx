@@ -7,7 +7,9 @@ createRoot(document.getElementById("root")).render(
   <Auth0Provider
     domain="dev-b5nt3k36p88bpinn.us.auth0.com"
     clientId="pJyvqQQLdPr4mn5ToYRfJARr5yDQSKfx"
-    redirectUri={window.location.origin}
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+    }}
   >
     <App />
   </Auth0Provider>
