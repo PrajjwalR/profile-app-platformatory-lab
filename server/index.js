@@ -5,7 +5,16 @@ require("dotenv").config();
 // const { Connection, Client } = require("@temporalio/client");
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://profile-app-platformatory-lab.vercel.app/", // your deployed frontend URL
+      "http://localhost:5173", // for local development
+    ],
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
