@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-const { Connection, Client } = require("@temporalio/client");
+// const { Connection, Client } = require("@temporalio/client");
 
 const app = express();
 app.use(cors());
@@ -37,11 +37,11 @@ app.post("/profile/:userId", async (req, res) => {
   }
 });
 
-let temporalClient;
-(async () => {
-  const connection = await Connection.connect();
-  temporalClient = new Client({ connection });
-})();
+// let temporalClient;
+// (async () => {
+//   const connection = await Connection.connect();
+//   temporalClient = new Client({ connection });
+// })();
 
 const mongoose = require("mongoose");
 mongoose

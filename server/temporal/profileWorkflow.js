@@ -1,5 +1,5 @@
-const { proxyActivities } = require("@temporalio/workflow");
-const { sleep } = require("@temporalio/workflow");
+// const { proxyActivities } = require("@temporalio/workflow");
+// const { sleep } = require("@temporalio/workflow");
 
 const activities = proxyActivities({
   startToCloseTimeout: "1 minute",
